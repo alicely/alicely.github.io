@@ -91,25 +91,34 @@ function initScene() {
 	ww = canvas.width = window.innerWidth;
 	wh = canvas.height = window.innerHeight;
 
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	var link = document.createElement('link');
+	link.rel = 'stylesheet';
+	link.type = 'text/css';
+	link.href= 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,700,700i|Quicksand:300,400|Lobster+Two:400,400i,700,700i';
+	document.getElementsByTagName('head')[0].appendChild(link);
 
-	ctx.font = "400 " + (ww / 10) + "px Lobster Two"; // Size of the text
-	ctx.textAlign = "center";
-	ctx.fillText(copy, ww / 2, wh / 2); //Centering
+	var image = new Image;
+	image.src = link.href;
+	image.onerror = function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.font = "400 " + (ww / 10) + "px Lobster Two"; // Size of the text
+		ctx.textAlign = "center";
+		ctx.fillText(copy, ww / 2, wh / 2); //Centering
 
-	var data = ctx.getImageData(0, 0, ww, wh).data;
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	ctx.globalCompositeOperation = "screen";
+		var data = ctx.getImageData(0, 0, ww, wh).data;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.globalCompositeOperation = "screen";
 
-	particles = [];
-	for (var i = 0; i < ww; i += Math.round(ww / 400)) { //400 here represents the amount of particles
-		for (var j = 0; j < wh; j += Math.round(ww / 400)) {
-			if (data[((i + j * ww) * 4) + 3] > 250) {
-				particles.push(new Particle(i, j));
+		particles = [];
+		for (var i = 0; i < ww; i += Math.round(ww / 400)) { //400 here represents the amount of particles
+			for (var j = 0; j < wh; j += Math.round(ww / 400)) {
+				if (data[((i + j * ww) * 4) + 3] > 250) {
+					particles.push(new Particle(i, j));
+				}
 			}
 		}
+		amount = particles.length;
 	}
-	amount = particles.length;
 
 }
 
